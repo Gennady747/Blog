@@ -3,10 +3,10 @@ import requests
 import time
 import random
 from datetime import datetime
-import os  # добавил только это
+import os                     # ← обязательно должно быть
 
 # ====================== НАСТРОЙКИ ======================
-BOT_TOKEN = os.getenv("BOT_TOKEN")
+BOT_TOKEN = os.getenv("BOT_TOKEN")   # ← только так!
 CHANNEL_ID = "-1003723944742"
 POST_INTERVAL = 120  # 2 минуты для теста
 # ====================== СТОРИС (300+ цельных мини-историй) ======================
