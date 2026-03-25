@@ -522,37 +522,37 @@ def main():
     last_post_hour = -1
 
     while True:
-        now = datetime.now()
-        hour = now.hour
-        minute = now.minute
+    now = datetime.now()
+    hour = (now.hour + 3) % 24  # +3 для московского времени (UTC+3)
+    minute = now.minute
 
-        # 4 поста с примерно равными промежутками с 8:00 до 23:00
-        if hour in [8, 12, 17, 21] and minute == 30 and hour != last_post_hour:
-            last_post_hour = hour
-            count += 1
+    # 4 поста с примерно равными промежутками с 8:00 до 23:00
+    if hour in [8, 12, 17, 21] and minute == 30 and hour != last_post_hour:
+        last_post_hour = hour
+        count += 1
 
-            print(f"\n[{now.strftime('%H:%M:%S')}] Пост #{count}")
+        print(f"\n Пост #{count}")
 
-            # Берём уникальную историю
-            story = get_unique_story()
-            text = format_post(story)
+        # Берём уникальную историю
+        story = get_unique_story()
+        text = format_post(story)
 
-            print(f"   Тема: {story['theme']}")
-            print(f"   Длина: {len(text)} символов")
+        print(f"   Тема: {story }")
+        print(f"   Длина: {len(text)} символов")
 
-            if send_photo(get_motivational_image(), text):
-                print("   ✅ Отправлено успешно")
-            else:
-                print("   ❌ Ошибка отправки")
+        if send_photo(get_motivational_image(), text):
+            print("   ✅ Отправлено успешно")
+        else:
+            print("   ❌ Ошибка отправки")
 
-            print(f"   Следующий пост примерно через 4.5 часа\n")
+        print(f"   Следующий пост примерно через 4.5 часа\n")
 
-        # Проверяем каждую минуту, чтобы не нагружать сервер
-        time.sleep(60)
+    # Проверяем каждую минуту
+    time.sleep(60)
 
-        # Сброс в полночь
-        if hour == 0 and minute == 0:
-            last_post_hour = -1
+    # Сброс в полночь
+    if hour == 0 and minute == 0:
+        last_post_hour = -1
 
 
 if __name__ == "__main__":
