@@ -515,32 +515,45 @@ def get_motivational_image():
 def main():
     print("=" * 70)
     print("🤖 Бот «Размышления Макса» запущен (300+ постов)")
-    print(f"⏱️ Пост каждые {POST_INTERVAL} секунд")
+    print("Посты 4 раза в день: 8:00, 12:30, 17:00, 21:30")
     print(f"📝 Готовых историй: {len(STORIES)}")
     print("=" * 70)
 
     count = 0
+    last_post_hour = -1
+
     while True:
-        count += 1
-        now = datetime.now().strftime("%H:%M:%S")
-        print(f"\n[{now}] Пост #{count}")
+        now = datetime.now()
+        hour = now.hour
+        minute = now.minute
 
-        # Берём уникальную историю
-        story = get_unique_story()
-        text = format_post(story)
+        # 4 поста с примерно равными промежутками с 8:00 до 23:00
+        if hour in [8, 12, 17, 21] and minute == 30 and hour != last_post_hour:
+            last_post_hour = hour
+            count += 1
 
-        print(f"   Тема: {story['theme']}")
-        print(f"   Длина: {len(text)} символов")
+            print(f"\n[{now.strftime('%H:%M:%S')}] Пост #{count}")
 
-        if send_photo(get_motivational_image(), text):
-            print("   ✅ Отправлено успешно")
-        else:
-            print("   ❌ Ошибка отправки")
+            # Берём уникальную историю
+            story = get_unique_story()
+            text = format_post(story)
 
-        next_time = datetime.fromtimestamp(time.time() + POST_INTERVAL).strftime("%H:%M:%S")
-        print(f"   Следующий в {next_time}\n")
+            print(f"   Тема: {story['theme']}")
+            print(f"   Длина: {len(text)} символов")
 
-        time.sleep(POST_INTERVAL)
+            if send_photo(get_motivational_image(), text):
+                print("   ✅ Отправлено успешно")
+            else:
+                print("   ❌ Ошибка отправки")
+
+            print(f"   Следующий пост примерно через 4.5 часа\n")
+
+        # Проверяем каждую минуту, чтобы не нагружать сервер
+        time.sleep(60)
+
+        # Сброс в полночь
+        if hour == 0 and minute == 0:
+            last_post_hour = -1
 
 
 if __name__ == "__main__":
