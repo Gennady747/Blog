@@ -529,7 +529,8 @@ def main():
         if hour in [8, 12, 17, 21] and minute == 30 and hour != last_post_hour:
             last_post_hour = hour
             count += 1
-            print(f"\n[{now.strftime('%H:%M:%S')}] Пост #{count}")
+
+            print(f"\n Пост #{count}")
 
             story = get_unique_story()
             text = format_post(story)
