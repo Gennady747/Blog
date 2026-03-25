@@ -514,7 +514,7 @@ def get_motivational_image():
 def main():
     print("=" * 70)
     print("🤖 Бот «Размышления Макса» запущен (300+ постов)")
-    print("Посты 4 раза в день: 8:30, 12:30, 17:00, 21:30 (по Москве)")
+    print("Посты 4 раза в день: 8:30, 12:30, 17:00, 21:30 (по местному времени сервера)")
     print(f"📝 Готовых историй: {len(STORIES)}")
     print("=" * 70)
 
@@ -523,7 +523,7 @@ def main():
 
     while True:
         now = datetime.now()
-        hour = (now.hour + 3) % 24  # +3 для московского времени (UTC+3)
+        hour = now.hour  # Локальное время сервера (Минск/Москва = UTC+3)
         minute = now.minute
 
         if hour in [8, 12, 17, 21] and minute == 30 and hour != last_post_hour:
@@ -535,7 +535,7 @@ def main():
             story = get_unique_story()
             text = format_post(story)
 
-            print(f"   Тема: {story }")
+            print(f"   Тема: {story['theme']}")
             print(f"   Длина: {len(text)} символов")
 
             if send_photo(get_motivational_image(), text):
