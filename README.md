@@ -514,7 +514,7 @@ def get_motivational_image():
 def main():
     print("=" * 70)
     print("🤖 Бот «Размышления Макса» запущен (300+ постов)")
-    print("Посты 4 раза в день: 8:00, 12:30, 17:00, 21:30")
+    print("Посты 4 раза в день: 8:30, 12:30, 17:00, 21:30 (по Москве)")
     print(f"📝 Готовых историй: {len(STORIES)}")
     print("=" * 70)
 
@@ -522,37 +522,33 @@ def main():
     last_post_hour = -1
 
     while True:
-    now = datetime.now()
-    hour = (now.hour + 3) % 24  # +3 для московского времени (UTC+3)
-    minute = now.minute
+        now = datetime.now()
+        hour = (now.hour + 3) % 24  # +3 для московского времени (UTC+3)
+        minute = now.minute
 
-    # 4 поста с примерно равными промежутками с 8:00 до 23:00
-    if hour in [8, 12, 17, 21] and minute == 30 and hour != last_post_hour:
-        last_post_hour = hour
-        count += 1
+        if hour in [8, 12, 17, 21] and minute == 30 and hour != last_post_hour:
+            last_post_hour = hour
+            count += 1
 
-        print(f"\n Пост #{count}")
+            print(f"\n[{now.strftime('%H:%M:%S')}] Пост #{count}")
 
-        # Берём уникальную историю
-        story = get_unique_story()
-        text = format_post(story)
+            story = get_unique_story()
+            text = format_post(story)
 
-        print(f"   Тема: {story }")
-        print(f"   Длина: {len(text)} символов")
+            print(f"   Тема: {story }")
+            print(f"   Длина: {len(text)} символов")
 
-        if send_photo(get_motivational_image(), text):
-            print("   ✅ Отправлено успешно")
-        else:
-            print("   ❌ Ошибка отправки")
+            if send_photo(get_motivational_image(), text):
+                print("   ✅ Отправлено успешно")
+            else:
+                print("   ❌ Ошибка отправки")
 
-        print(f"   Следующий пост примерно через 4.5 часа\n")
+            print(f"   Следующий пост примерно через 4.5 часа\n")
 
-    # Проверяем каждую минуту
-    time.sleep(60)
+        time.sleep(60)
 
-    # Сброс в полночь
-    if hour == 0 and minute == 0:
-        last_post_hour = -1
+        if hour == 0 and minute == 0:
+            last_post_hour = -1
 
 
 if __name__ == "__main__":
