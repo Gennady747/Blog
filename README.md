@@ -511,7 +511,7 @@ def get_motivational_image():
     keyword = random.choice(topics)
     return f"https://loremflickr.com/800/600/{keyword}?lock={random.randint(1, 999999)}"
 
-Бот расписание
+#Бот расписание
 def main():
     print("=" * 70)
     print("🤖 Бот «Размышления Макса» запущен (300+ постов)")
