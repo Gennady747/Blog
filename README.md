@@ -512,7 +512,7 @@ def get_motivational_image():
     return f"https://loremflickr.com/800/600/{keyword}?lock={random.randint(1, 999999)}"
 
 Бот расписание
-def main():
+    def main():
     print("=" * 70)
     print("🤖 Бот «Размышления Макса» запущен (300+ постов)")
     print("Посты 4 раза в день: 8:30, 12:30, 17:00, 21:30 (по местному времени сервера)")
@@ -522,16 +522,20 @@ def main():
     count = 0
     last_post_hour = -1
 
+    # Расписание: час -> минута
+    schedule = {8: 30, 12: 30, 17: 0, 21: 30}
+
     while True:
         now = datetime.now()
-        hour = now.hour  # Локальное время сервера (Минск/Москва = UTC+3)
+        hour = now.hour
         minute = now.minute
 
-        if hour in [8, 12, 17, 21] and minute == 30 and hour != last_post_hour:
+        # Проверяем расписание: 8:30, 12:30, 17:00, 21:30
+        if hour in schedule and minute == schedule[hour] and hour != last_post_hour:
             last_post_hour = hour
             count += 1
 
-            print(f"\n Пост #{count}")
+            print(f"\n📤 Пост #{count}")
 
             story = get_unique_story()
             text = format_post(story)
@@ -544,12 +548,14 @@ def main():
             else:
                 print("   ❌ Ошибка отправки")
 
-            print(f"   Следующий пост примерно через 4.5 часа\n")
+            print(f"   ⏳ Следующий пост примерно через 4.5 часа\n")
 
-        time.sleep(60)
-
+        # Сброс в полночь для нового дня
         if hour == 0 and minute == 0:
             last_post_hour = -1
+            print("🌙 Новый день — счётчик сброшен")
+
+        time.sleep(60)
 
 
 if __name__ == "__main__":
