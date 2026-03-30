@@ -515,7 +515,7 @@ def get_motivational_image():
 def main():
     print("=" * 70)
     print("🤖 Бот «Размышления Макса» запущен (300+ постов)")
-    print("Посты 4 раза в день: 8:30, 12:30, 17:00, 21:30 (по местному времени сервера)")
+    print("Посты 4 раза в день: 5:00, 10:00, 15:00, 20:00 (по местному времени сервера)")
     print(f"📝 Готовых историй: {len(STORIES)}")
     print("=" * 70)
 
@@ -523,14 +523,14 @@ def main():
     last_post_hour = -1
 
     # Расписание: час -> минута
-    schedule = {8: 30, 12: 30, 17: 0, 21: 30}
+    schedule = {5: 00, 10: 00, 15: 0, 20: 00}
 
     while True:
         now = datetime.now()
         hour = now.hour
         minute = now.minute
 
-        # Проверяем расписание: 8:30, 12:30, 17:00, 21:30
+        # Проверяем расписание: 5:00, 10:00, 15:00, 20:00
         if hour in schedule and minute == schedule[hour] and hour != last_post_hour:
             last_post_hour = hour
             count += 1
@@ -548,7 +548,7 @@ def main():
             else:
                 print("   ❌ Ошибка отправки")
 
-            print(f"   ⏳ Следующий пост примерно через 4.5 часа\n")
+            print(f"   ⏳ Следующий пост примерно через 5 часа\n")
 
         # Сброс в полночь для нового дня
         if hour == 0 and minute == 0:
